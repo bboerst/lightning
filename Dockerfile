@@ -115,7 +115,7 @@ RUN ./configure --prefix=/tmp/lightning_install --enable-static && \
     make && \
     /root/.local/bin/poetry run make install
 
-FROM debian:bullseye-slim as final
+FROM node:bullseye-slim as final
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -144,5 +144,5 @@ COPY --from=downloader /opt/bitcoin/bin /usr/bin
 COPY --from=downloader /opt/litecoin/bin /usr/bin
 COPY tools/docker-entrypoint.sh entrypoint.sh
 
-EXPOSE 9735 9835
+EXPOSE 9735 9835 3001 4001
 ENTRYPOINT  [ "/usr/bin/tini", "-g", "--", "./entrypoint.sh" ]
